@@ -37,7 +37,7 @@ func main() {
 
 ## `FIFOMap`
 The `FIFOMap` is a map with a FIFO eviction policy, meaning that the oldest values get removed once your map
-reaches a certain `size`. Internally, it uses the sharded map above.
+reaches a certain `size`. Internally, it uses the sharded map above, and shares the same interface.
 ```go
 import "github.com/chainbound/shardmap"
 
