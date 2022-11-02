@@ -28,8 +28,8 @@ func main() {
     // Initialize a new sharded int -> string map with size 1000, and 10 shards.
     // We need to provide the hash function for our key type, the defaults being contained
     // in this package. You can also provide your own.
-	sm := shardmap.NewShardedMap[int, string](1000, 10, shardmap.HashInt)
-	sm.Put(1, "josh")
+    sm := shardmap.NewShardedMap[int, string](1000, 10, shardmap.HashInt)
+    sm.Put(1, "josh")
 
     fmt.Println(sm.Get(1))
 }
@@ -45,10 +45,10 @@ func main() {
     // Initialize a new sharded int -> string map with size 1000, and 10 shards.
     // We need to provide the hash function for our key type, the defaults being contained
     // in this package. You can also provide your own.
-	sm := shardmap.NewFIFOMap[int, string](1000, 10, shardmap.HashInt)
+    sm := shardmap.NewFIFOMap[int, string](1000, 10, shardmap.HashInt)
 
     // Once the size is reached, the next put will remove the oldest inserted KV pair.
-	sm.Put(1, "josh")
+    sm.Put(1, "josh")
 
     fmt.Println(sm.Get(1))
 }
