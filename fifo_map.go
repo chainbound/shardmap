@@ -53,3 +53,11 @@ func (m *FIFOMap[K, V]) Del(key K) {
 func (m *FIFOMap[K, V]) Len() int {
 	return m.currentSize
 }
+
+func (m *FIFOMap[K, V]) Keys() []K {
+	return m.internalMap.Keys()
+}
+
+func (m *FIFOMap[K, V]) Iter() <-chan KVPair[K, V] {
+	return m.internalMap.Iter()
+}
