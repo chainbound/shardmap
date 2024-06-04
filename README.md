@@ -17,6 +17,8 @@ type ShardedMapInterface interface {
     Put(key K, val V)
     Has(key K) ok bool
     Del(key K)
+    Keys() []K
+    Iter() <-chan KVPair[K, V]
     Len() int
 }
 ```

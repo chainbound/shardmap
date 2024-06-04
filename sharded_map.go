@@ -16,6 +16,11 @@ type shard[K hashable, V any] struct {
 	internalMap map[K]V
 }
 
+type KVPair[K, V any] struct {
+	Key   K
+	Value V
+}
+
 type hashable interface {
 	~string | ~int | ~uint | ~int64 | ~uint64 | ~int32 | ~uint32 | ~int16 | ~uint16 | ~int8 | ~uint8
 }
@@ -116,4 +121,33 @@ func (m *ShardedMap[K, V]) Len() int {
 	}
 
 	return total
+}
+
+func (m *ShardedMap[K, V]) Keys() []K {
+	keys := make([]K, 0)
+	for _, s := range m.shards {
+		s.RLock()
+		for k := range s.internalMap {
+			keys = append(keys, k)
+		}
+		s.RUnlock()
+	}
+	return keys
+}
+
+func (m *ShardedMap[K, V]) Iter() <-chan KVPair[K, V] {
+	ch := make(chan KVPair[K, V])
+
+	go func() {
+		for _, s := range m.shards {
+			s.RLock()
+			for k, v := range s.internalMap {
+				ch <- KVPair[K, V]{k, v}
+			}
+			s.RUnlock()
+		}
+		close(ch)
+	}()
+
+	return ch
 }

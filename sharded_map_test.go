@@ -66,3 +66,14 @@ func BenchmarkShardMapGet(b *testing.B) {
 
 	_ = v
 }
+
+func BenchmarkShardMapIter(b *testing.B) {
+	sm := NewShardedMap[int, int](b.N, 1, HashInt)
+	for i := 0; i < b.N; i++ {
+		sm.Put(i, i)
+	}
+	b.ResetTimer()
+	for kv := range sm.Iter() {
+		_ = kv
+	}
+}
